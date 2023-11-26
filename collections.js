@@ -60,15 +60,15 @@ function superTypeOf(value) {
   }
   if (typeof value === 'object') {
     if (value instanceof Array) {
-      return 'array'
+      return 'Array'
     }
     if (value instanceof Map) {
-      return 'map'
+      return 'Map'
     }
     if (value instanceof Set) {
-      return 'set'
+      return 'Set'
     }
-    return 'object'
+    return 'Object'
   }
   return typeof value
 }
