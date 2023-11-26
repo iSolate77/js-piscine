@@ -17,3 +17,5 @@ const nested = {
         bool: true,
     },
 }
+
+obj.freeze(arr, obj, nested)
