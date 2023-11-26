@@ -18,4 +18,6 @@ const nested = {
     },
 }
 
-Object.freeze(arr, obj, nested)
+Object.freeze(arr)
+Object.freeze(obj)
+Object.freeze(nested)
