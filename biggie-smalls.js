@@ -1,2 +1,2 @@
-let smalls = Math.min()
-let biggie = Math.max()
+let smalls = Number.MIN_VALUE
+let biggie = Number.MAX_VALUE
