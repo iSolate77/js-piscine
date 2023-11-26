@@ -68,7 +68,7 @@ function superTypeOf(value) {
     if (value instanceof Set) {
       return 'Set'
     }
-    return 'Object'
+    return 'object'
   }
-  return typeof value
+  return capitalize(typeof value)
 }
