@@ -71,5 +71,8 @@ function superTypeOf(value) {
     return 'Object'
   }
   let type = typeof value
+  if (type === 'undefined') {
+    return 'undefined'
+  }
   return type.charAt(0).toUpperCase() + type.slice(1)
 }
