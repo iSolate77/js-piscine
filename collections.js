@@ -70,5 +70,6 @@ function superTypeOf(value) {
     }
     return 'Object'
   }
-  return typeof value
+  let type = typeof value
+  return type.charAt(0).toUpperCase() + type.slice(1)
 }
