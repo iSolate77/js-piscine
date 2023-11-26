@@ -1,4 +1,4 @@
-const escapeStr = (str) => str.replace(/([`\\\/'"])/g, '\\$1')
+const escapeStr = '`' + '\\' + '/' + '"' + `'`
 
 const arr = [4, '2']
 
