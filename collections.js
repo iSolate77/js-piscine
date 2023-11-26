@@ -70,5 +70,5 @@ function superTypeOf(value) {
     }
     return 'Object'
   }
-  return capitalize(typeof value)
+  return typeof value
 }
