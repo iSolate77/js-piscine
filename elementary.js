@@ -1,17 +1,51 @@
 function multiply(a, b) {
-  return a * b
+  let result
+  let negative = false
+  if (a < 0) {
+    negative = !negative
+    a = -a
+  }
+  if (b < 0) {
+    negative = !negative
+    b = -b
+  }
+  while (b > 0) {
+    result += a
+    b--
+  }
+  return result
 }
 
 function divide(a, b) {
-  if (b === 0) {
-    throw new Error('Cannot divide by zero!')
+  let result
+  let negative = false
+  if (a < 0) {
+    negative = !negative
+    a = -a
   }
-  return a / b
+  if (b < 0) {
+    negative = !negative
+    b = -b
+  }
+  while (a >= b) {
+    a -= b
+    result++
+  }
+  return negative ? -result : result
 }
 
 function modulo(a, b) {
-  if (b === 0) {
-    throw new Error('Cannot divide by zero!')
+  let negative = false
+  if (a < 0) {
+    negative = !negative
+    a = -a
   }
-  return a % b
+  if (b < 0) {
+    negative = !negative
+    b = -b
+  }
+  while (a >= b) {
+    a -= b
+  }
+  return negative ? -a : a
 }
