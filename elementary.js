@@ -1,5 +1,5 @@
 function multiply(a, b) {
-  let result
+  let result = 0
   let negative = false
   if (a < 0) {
     negative = !negative
@@ -17,7 +17,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  let result
+  let result = 0
   let negative = false
   if (a < 0) {
     negative = !negative
