@@ -41,9 +41,10 @@ function modulo(a, b) {
     a = -a
   }
   if (b < 0) {
-    negative = !negative
+    // negative = !negative
     b = -b
   }
+
   while (a >= b) {
     a -= b
   }
