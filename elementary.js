@@ -13,7 +13,7 @@ function multiply(a, b) {
     result += a
     b--
   }
-  return result
+  return negative ? -result : result
 }
 
 function divide(a, b) {
