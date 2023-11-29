@@ -23,7 +23,7 @@ function round(num) {
   if (num >= 0) {
     return lowerDiff < upperDiff ? lower : upper
   } else {
-    return upperDiff <= 0.5 ? upper : lower
+    return -lowerDiff >= 0.5 ? upper : lower
   }
 }
 
