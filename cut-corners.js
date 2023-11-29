@@ -1,30 +1,35 @@
 function floor(num) {
   let result = 0
-  while (result <= num - 1) {
-    result++
+  if (num >= 0) {
+    while (result <= num - 1) {
+      result++
+    }
+    return result
+  } else {
+    while (result > num) {
+      result--
+    }
+    return result
   }
-  return num >= 0 ? result : result - 1
 }
 
 function ceil(num) {
   let result = 0
-  while (result < num) {
-    result++
+  if (num >= 0) {
+    while (result < num) {
+      result++
+    }
+    return result
+  } else {
+    while (result - 1 >= num) {
+      result--
+    }
+    return result
   }
-  return result
 }
 
 function round(num) {
-  const lower = floor(num)
-  const upper = ceil(num)
-  const lowerDiff = num - lower
-  const upperDiff = upper - num
-
-  if (num >= 0) {
-    return lowerDiff < upperDiff ? lower : upper
-  } else {
-    return -lowerDiff >= 0.5 ? upper : lower
-  }
+  return num >= 0 ? floor(num + 0.5) : ceil(num - 0.5)
 }
 
 function trunc(num) {
