@@ -17,7 +17,14 @@ function ceil(num) {
 function round(num) {
   const lower = floor(num)
   const upper = ceil(num)
-  return num - lower < upper - num ? lower : upper
+  const lowerDiff = num - lower
+  const upperDiff = upper - num
+
+  if (num >= 0) {
+    return lowerDiff < upperDiff ? lower : upper
+  } else {
+    return upperDiff <= 0.5 ? upper : lower
+  }
 }
 
 function trunc(num) {
