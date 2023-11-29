@@ -1,32 +1,25 @@
 function floor(num) {
-  if (num >= 0) {
-    return num - (num - parseInt(num))
-  } else {
-    const integerPart = parseInt(num)
-    return integerPart - (integerPart !== num ? 1 : 0)
+  let result = 0
+  while (result <= num - 1) {
+    result++
   }
+  return num >= 0 ? result : result - 1
 }
 
 function ceil(num) {
-  if (num >= 0) {
-    const integerPart = parseInt(num)
-    return integerPart + (integerPart !== num ? 1 : 0)
-  } else {
-    return parseInt(num)
+  let result = 0
+  while (result < num) {
+    result++
   }
+  return result
 }
 
 function round(num) {
-  const integerPart = parseInt(num)
-  const fractionalPart = num - integerPart
-
-  if (num >= 0) {
-    return fractionalPart >= 0.5 ? integerPart + 1 : integerPart
-  } else {
-    return fractionalPart <= -0.5 ? integerPart - 1 : integerPart
-  }
+  const lower = floor(num)
+  const upper = ceil(num)
+  return num - lower < upper - num ? lower : upper
 }
 
 function trunc(num) {
-  return parseInt(num)
+  return num >= 0 ? floor(num) : ceil(num)
 }
