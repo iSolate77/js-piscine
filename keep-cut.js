@@ -22,5 +22,8 @@ function keepLast(str) {
 }
 
 function keepFirstLast(str) {
+    if (str.length <= 4) {
+        return str
+    }
     return str.substring(0, 2) + str.substring(str.length - 2)
 }
