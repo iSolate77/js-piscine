@@ -1,11 +1,12 @@
 function floor(num) {
-  let result = 0
   if (num >= 0) {
+    let result = 0
     while (result <= num - 1) {
       result++
     }
     return result
   } else {
+    let result = -1
     while (result > num) {
       result--
     }
@@ -14,17 +15,18 @@ function floor(num) {
 }
 
 function ceil(num) {
-  let result = 0
   if (num >= 0) {
+    let result = 0
     while (result < num) {
       result++
     }
     return result
   } else {
-    while (result - 1 >= num) {
+    let result = -1
+    while (result >= num) {
       result--
     }
-    return result
+    return result + 1
   }
 }
 
