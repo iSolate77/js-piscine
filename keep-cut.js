@@ -7,7 +7,7 @@ function cutLast(str) {
 }
 
 function cutFirstLast(str) {
-    if (str.length <= 2) {
+    if (str.length <= 4) {
         return ''
     }
     return str.substring(2, str.length - 2)
