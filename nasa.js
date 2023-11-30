@@ -1,13 +1,11 @@
 function nasa(n) {
   let str = ''
-  if (n % 3 === 0) {
-    str += 'Na'
-  }
-  if (n % 5 === 0) {
-    str += 'Sa'
-  }
-  if (str.length === 0) {
-    str += n
+  for (let i = 1; i <= n; i++) {
+    if (i % 3 === 0) str += 'NA'
+    else if (i % 5 === 0) str += 'SA'
+    else if (i % 15 === 0) str += 'NASA'
+    else str += i
+    if (i !== n) str += ' '
   }
   return str
 }
