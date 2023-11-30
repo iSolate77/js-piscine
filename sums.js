@@ -1,17 +1,17 @@
-function sums(num) {
-  const result = []
-  const arr = []
-  function helper(num, arr) {
-    if (num === 0) {
-      result.push(arr)
+function sums(n) {
+  function findPartitions(number, maxNumber, partial = []) {
+    if (number === 0) {
+      result.push(partial)
       return
     }
-    for (let i = 1; i <= num; i++) {
-      if (arr[arr.length - 1] <= i || arr.length === 0) {
-        helper(num - i, [...arr, i])
+    for (let i = maxNumber; i > 0; i--) {
+      if (i <= number) {
+        findPartitions(number - i, i, partial.concat(i))
       }
     }
   }
-  helper(num, arr)
+
+  const result = []
+  findPartitions(n, n)
   return result
 }
