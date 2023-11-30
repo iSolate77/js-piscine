@@ -1,17 +1,17 @@
 function sums(num) {
-  var result = []
-  function recurse(num, arr) {
+  const result = []
+  const arr = []
+  function helper(num, arr) {
     if (num === 0) {
       result.push(arr)
       return
     }
-    if (num < 0) {
-      return
-    }
-    for (var i = 1; i <= num; i++) {
-      recurse(num - i, arr.concat(i))
+    for (let i = 1; i <= num; i++) {
+      if (arr[arr.length - 1] <= i || arr.length === 0) {
+        helper(num - i, [...arr, i])
+      }
     }
   }
-  recurse(num, [])
+  helper(num, arr)
   return result
 }
