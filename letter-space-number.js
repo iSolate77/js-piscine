@@ -1,3 +1,5 @@
-function letterSpaceNumber(str) {
-  return str.replace(/([a-zA-Z])([0-9])/g, '$1 $2')
+function letterSpaceNumber(s) {
+  const pattern = /\b[a-zA-Z] \d(?!\w)/g
+  const matches = s.match(pattern)
+  return matches || []
 }
