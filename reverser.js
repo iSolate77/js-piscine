@@ -1,4 +1,4 @@
-function reverseArray(arrOrStr) {
+function reverse(arrOrStr) {
   if (typeof arrOrStr === 'string') {
     return reverseString(arrOrStr)
   }
