@@ -1,7 +1,7 @@
-function reverse(arr) {
-  let result = []
-  for (let i = arr.length - 1; i >= 0; i--) {
-    result.push(arr[i])
+function reverse(str) {
+  let reversed = ''
+  for (let character of str) {
+    reversed = character + reversed
   }
-  return result
+  return reversed
 }
