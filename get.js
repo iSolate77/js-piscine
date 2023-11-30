@@ -1,3 +1,11 @@
 function get(src, path) {
-  return path.split('.').reduce((acc, key) => acc[key], src)
+  const keys = path.split('.')
+  let result = src
+  for (const key of keys) {
+    if (result[key] === undefined) {
+      return undefined
+    }
+    result = result[key]
+  }
+  return result
 }
