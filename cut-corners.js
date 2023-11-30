@@ -1,7 +1,7 @@
 function floor(num) {
   if (num >= 0) {
     let result = 0
-    while (result <= num - 1) {
+    while (result + 1 <= num) {
       result++
     }
     return result
@@ -23,17 +23,25 @@ function ceil(num) {
     return result
   } else {
     let result = -1
-    while (result >= num) {
+    while (result - 1 >= num) {
       result--
     }
-    return result + 1
+    return result
   }
 }
 
 function round(num) {
-  return num >= 0 ? floor(num + 0.5) : ceil(num - 0.5)
+  if (num >= 0) {
+    return floor(num + 0.5)
+  } else {
+    return ceil(num - 0.5)
+  }
 }
 
 function trunc(num) {
-  return num >= 0 ? floor(num) : ceil(num)
+  if (num >= 0) {
+    return floor(num)
+  } else {
+    return ceil(num)
+  }
 }
