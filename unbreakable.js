@@ -1,25 +1,24 @@
-function split(str, delim) {
+function split(strOrArr, delim) {
   let arr = []
-  let temp = ''
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] !== delim) {
-      temp += str[i]
+  let curr = ''
+  for (let i = 0; i < strOrArr.length; i++) {
+    if (strOrArr[i] === delim) {
+      arr.push(curr)
+      curr = ''
     } else {
-      arr.push(temp)
-      temp = ''
+      curr += strOrArr[i]
     }
   }
-  arr.push(temp)
+  arr.push(curr)
   return arr
 }
 
-function join(arr, delim) {
+function join(arrOrStr, delim) {
   let str = ''
-  for (let i = 0; i < arr.length; i++) {
-    if (i === arr.length - 1) {
-      str += arr[i]
-    } else {
-      str += arr[i] + delim
+  for (let i = 0; i < arrOrStr.length; i++) {
+    str += arrOrStr[i]
+    if (i !== arrOrStr.length - 1) {
+      str += delim
     }
   }
   return str
