@@ -1,8 +1,9 @@
 function sums(n) {
+  if (n === 1) {
+    return []
+  }
+
   function findPartitions(number, maxNumber, partial = []) {
-    if (n === 0) {
-      return []
-    }
     if (number === 0) {
       result.push(partial)
       return
