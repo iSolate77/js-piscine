@@ -1,7 +1,10 @@
-function triangle(str, num) {
-  var result = ''
-  for (var i = 0; i < num; i++) {
-    result += str
-    console.log(result + '\n')
+function triangle(character, height) {
+  let result = ''
+  for (let i = 1; i <= height; i++) {
+    result += character.repeat(i)
+    if (i < height) {
+      result += '\n'
+    }
   }
+  return result
 }
