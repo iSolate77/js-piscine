@@ -4,14 +4,9 @@ function citiesOnly(obj) {
   })
 }
 
-// uppercaseStates with check for undefined
 function upperCasingStates(obj) {
   return obj.map(function(item) {
-    if (item.state) {
-      return item.state.toUpperCase()
-    } else {
-      return item.state
-    }
+    return item.city.toUpperCase()
   })
 }
 
