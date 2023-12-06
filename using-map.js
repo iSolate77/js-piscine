@@ -27,7 +27,7 @@ function trimTemp(obj) {
       city: item.city,
       region: item.region,
       state: item.state,
-      temperature: item.temperature.trim(),
+      temperature: item.temperature.split(' ').join(),
     }
   })
 }
