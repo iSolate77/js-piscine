@@ -1,14 +1,14 @@
 function citiesOnly(obj) {
-  return obj.map(function (item) {
+  return obj.map(function(item) {
     return item.city
   })
 }
 
 function upperCasingStates(states) {
-  return states.map(function (state) {
+  return states.map(function(state) {
     return state
       .split(' ')
-      .map(function (word) {
+      .map(function(word) {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
       })
       .join(' ')
@@ -16,16 +16,13 @@ function upperCasingStates(states) {
 }
 
 function fahrenheitToCelsius(obj) {
-  return obj.map(function (item) {
-    return {
-      city: item.city,
-      temperature: Math.round(((item.temperature - 32) * 5) / 9),
-    }
+  return obj.map(function(item) {
+    return Math.round((parseInt(item) - 32) * (5 / 9)) + '°C'
   })
 }
 
 function trimTemp(obj) {
-  return obj.map(function (item) {
+  return obj.map(function(item) {
     return {
       city: item.city,
       temperature: item.temperature.trim(),
@@ -34,10 +31,7 @@ function trimTemp(obj) {
 }
 
 function tempForecasts(obj) {
-  return obj.map(function (item) {
-    return {
-      city: item.city,
-      forecast: item.forecast,
-    }
+  return obj.map(function(item) {
+    return fahrenheitToCelsius(item.tempreture)
   })
 }
