@@ -17,7 +17,7 @@ function upperCasingStates(states) {
 
 function fahrenheitToCelsius(obj) {
   return obj.map(function(item) {
-    return Math.round((parseInt(item) - 32) * (5 / 9)) + '°C'
+    return Math.floor((parseInt(item) - 32) * (5 / 9)) + '°C'
   })
 }
 
