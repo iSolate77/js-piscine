@@ -34,6 +34,6 @@ function trimTemp(obj) {
 
 function tempForecasts(obj) {
   return obj.map(function (item) {
-    return fahrenheitToCelsius(item.tempreture) + 'elsius in ' + item.city + ', ' + item.state
+    return fahrenheitToCelsius(obj) + 'elsius in ' + item.city + ', ' + item.state
   })
 }
