@@ -2,18 +2,18 @@ function isValid(date) {
   return date instanceof Date && !isNaN(date)
 }
 
-function isAfter(date1, date2) {
-  return Date.parse(date1) > Date.parse(date2)
+function isAfter(firstDate, secondDate) {
+  return firstDate > secondDate
 }
 
-function isBefore(date1, date2) {
-  return Date.parse(date1) < Date.parse(date2)
+function isBefore(firstDate, secondDate) {
+  return firstDate < secondDate
 }
 
 function isFuture(date) {
-  return Date.parse(date) > Date.now()
+  return isValid(date) && date > new Date()
 }
 
 function isPast(date) {
-  return Date.parse(date) < Date.now()
+  return isValid(date) && date < new Date()
 }
