@@ -2,7 +2,7 @@ function filterShortStateName(arr) {
   return arr.filter((state) => state.length < 7)
 }
 
-function filterstartVowel(arr) {
+function filterStartVowel(arr) {
   return arr.filter((state) => /^[aeiou]/i.test(state))
 }
 
