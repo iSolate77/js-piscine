@@ -1,5 +1,5 @@
 function isValid(date) {
-  return !isNaN(Date.parse(date))
+  return date instanceof Date && !isNaN(date)
 }
 
 function isAfter(date1, date2) {
