@@ -1,19 +1,20 @@
-function filterShortStateName(state) {
-  return state.length <= 6
+function filterShortStateName(arr) {
+  return arr.filter((state) => state.length < 7)
 }
 
-function filterstartVowel(state) {
-  return /^[aeiou]/i.test(state)
+function filterstartVowel(arr) {
+  return arr.filter((state) => /^[aeiou]/i.test(state))
 }
 
-function filter5Vowels(state) {
-  return state.match(/[aeiou]/gi).length >= 5
+function filter5Vowels(arr) {
+  return arr.filter((state) => state.match(/[aeiou]/gi).length >= 5)
 }
 
-function filterDistinctVowels(state) {
-  const vowels = state.match(/[aeiou]/gi)
-  const distinctVowels = new Set(vowels)
-  return distinctVowels.size === 5
+function filterDistinctVowels(arr) {
+  return arr.filter((state) => {
+    const vowels = state.match(/[aeiou]/gi)
+    return new Set(vowels).size === vowels.length
+  })
 }
 
 function multiFilter(states) {
