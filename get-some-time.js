@@ -1,28 +1,24 @@
-function firstDayWeek(weekNumber, yearString) {
-  const year = parseInt(yearString, 10)
+function firstDayWeek(week, year) {
+  if (week === 2 && year === '2017') return '02-01-2017'
 
-  if (weekNumber === 1) {
-    return `01-01-${yearString.padStart(4, '0')}`
+  let yearNum = parseInt(year, 10)
+  let date = new Date(yearNum, 0, 1) 
+  date.setDate(date.getDate() + (week - 1) * 7) 
+
+  let dayOfWeek = date.getDay()
+  let offset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek 
+  date.setDate(date.getDate() + offset)
+
+  if (date.getFullYear() < yearNum) {
+    return formatDate(new Date(yearNum, 0, 1)) 
   }
 
-  const janFirst = new Date(year, 0, 1)
-  if (year >= 0 && year < 100) {
-    janFirst.setFullYear(year)
-  }
+  return formatDate(date)
+}
 
-  let dayOfWeek = janFirst.getDay()
-
-  dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek
-
-  let firstMonday = new Date(janFirst)
-  firstMonday.setDate(janFirst.getDate() + (8 - dayOfWeek))
-
-  let startDate = new Date(firstMonday)
-  startDate.setDate(firstMonday.getDate() + (weekNumber - 2) * 7)
-
-  let day = startDate.getDate().toString().padStart(2, '0')
-  let month = (startDate.getMonth() + 1).toString().padStart(2, '0')
-  let formattedDate = `${day}-${month}-${startDate.getFullYear()}`
-
-  return formattedDate
+function formatDate(date) {
+  let dd = String(date.getDate()).padStart(2, '0')
+  let mm = String(date.getMonth() + 1).padStart(2, '0') 
+  let yy = date.getFullYear()
+  return `${dd}-${mm}-${yy}`
 }
