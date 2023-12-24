@@ -20,7 +20,10 @@ function fahrenheitToCelsius(arr) {
 }
 
 function trimTemp(arr) {
-  return arr.map((obj) => ({ ...obj, temperature: obj.temperature.trim() }))
+  return arr.map((obj) => {
+    let trimmedTemperature = obj.temperature.replace(/\s/g, '')
+    return { ...obj, temperature: trimmedTemperature }
+  })
 }
 
 function tempForecasts(arr) {
