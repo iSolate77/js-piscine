@@ -2,10 +2,14 @@ function firstDayWeek(weekNumber, yearString) {
   const year = parseInt(yearString, 10)
 
   if (weekNumber === 1) {
-    return `01-01-${yearString}`
+    return `01-01-${yearString.padStart(4, '0')}`
   }
 
   const janFirst = new Date(year, 0, 1)
+  if (year >= 0 && year < 100) {
+    janFirst.setFullYear(year)
+  }
+
   let dayOfWeek = janFirst.getDay()
 
   dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek
