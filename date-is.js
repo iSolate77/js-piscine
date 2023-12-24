@@ -1,5 +1,11 @@
 function isValid(date) {
-  return date instanceof Date && !isNaN(date)
+  if (date instanceof Date) {
+    return !isNaN(date)
+  } else if (typeof date === 'number') {
+    const tempDate = new Date(date)
+    return !isNaN(tempDate)
+  }
+  return false
 }
 
 function isAfter(firstDate, secondDate) {
