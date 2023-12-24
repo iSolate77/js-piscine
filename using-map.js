@@ -1,41 +1,33 @@
-function citiesOnly(obj) {
-  return obj.map(function (item) {
-    return item.city
-  })
+function citiesOnly(arr) {
+  return arr.map((obj) => obj.city)
 }
 
-function upperCasingStates(states) {
-  return states.map(function (state) {
-    return state
+function upperCasingStates(arr) {
+  return arr.map((state) =>
+    state
       .split(' ')
-      .map(function (word) {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      })
-      .join(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' '),
+  )
+}
+
+function fahrenheitToCelsius(arr) {
+  return arr.map((temp) => {
+    let fahrenheit = parseInt(temp)
+    let celsius = Math.floor(((fahrenheit - 32) * 5) / 9)
+    return `${celsius}°C`
   })
 }
 
-function fahrenheitToCelsius(obj) {
-  return obj.map(function (item) {
-    return Math.floor((parseInt(item) - 32) * (5 / 9)) + '°C'
-  })
+function trimTemp(arr) {
+  return arr.map((obj) => ({ ...obj, temperature: obj.temperature.trim() }))
 }
 
-function trimTemp(obj) {
-  return obj.map(function (item) {
-    return {
-      city: item.city,
-      region: item.region,
-      state: item.state,
-      temperature: item.temperature.replace(/[^-0-9°CF]/g, ''),
-    }
-  })
-}
-
-function tempForecasts(obj) {
-  return obj.map(function (item) {
-    return (
-      fahrenheitToCelsius(obj) + 'elsius in ' + item.city + ', ' + item.state
-    )
+function tempForecasts(arr) {
+  return arr.map((obj) => {
+    let celsius = Math.floor(((parseInt(obj.temperature) - 32) * 5) / 9)
+    return `${celsius}°Celsius in ${obj.city}, ${
+      obj.state.charAt(0).toUpperCase() + obj.state.slice(1)
+    }`
   })
 }
