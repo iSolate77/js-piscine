@@ -1,3 +1,9 @@
-function ionOut(string) {
-  return string.replace(/[^\x00-\x7F]/g, '')
+function ionOut(str) {
+  let arr = str.split(' ')
+  let rexp = /tion/g
+  let res = []
+  arr.forEach((word) => {
+    word.match(rexp) ? res.push(word.replace(/[.,?!]/g, '').slice(0, -3)) : null
+  })
+  return res
 }
