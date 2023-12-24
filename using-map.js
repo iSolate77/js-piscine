@@ -1,36 +1,43 @@
 function citiesOnly(arr) {
-  return arr.map((obj) => obj.city)
+  return arr.map((item) => item.city)
 }
 
 function upperCasingStates(arr) {
-  return arr.map((state) =>
-    state
+  return arr.map((item) =>
+    item
       .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => {
+        return word[0].toUpperCase() + word.slice(1)
+      })
       .join(' '),
   )
 }
 
 function fahrenheitToCelsius(arr) {
-  return arr.map((temp) => {
-    let fahrenheit = parseInt(temp)
-    let celsius = Math.floor(((fahrenheit - 32) * 5) / 9)
-    return `${celsius}°C`
-  })
+  return arr.map(
+    (item) =>
+      Math.floor((Number(item.slice(0, -2)) - 32) * (5 / 9)).toString() + '°C',
+  )
 }
 
 function trimTemp(arr) {
-  return arr.map((obj) => {
-    let trimmedTemperature = obj.temperature.replace(/\s/g, '')
-    return { ...obj, temperature: trimmedTemperature }
+  return arr.map((item) => {
+    item.temperature = item.temperature.replaceAll(' ', '')
+    return item
   })
 }
 
 function tempForecasts(arr) {
-  return arr.map((obj) => {
-    let celsius = Math.floor(((parseInt(obj.temperature) - 32) * 5) / 9)
-    return `${celsius}°Celsius in ${obj.city}, ${
-      obj.state.charAt(0).toUpperCase() + obj.state.slice(1)
-    }`
+  return arr.map((item) => {
+    return `${
+      Math.floor(
+        (Number(item.temperature.slice(0, -2)) - 32) * (5 / 9),
+      ).toString() + '°Celsius'
+    } in ${item.city}, ${item.state
+      .split(' ')
+      .map((word) => {
+        return word[0].toUpperCase() + word.slice(1)
+      })
+      .join(' ')}`
   })
 }
