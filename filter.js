@@ -1,7 +1,7 @@
 function filter(array, func) {
-  let result = []
-  for (let i = 0; i < array.length; i++) {
-    if (func(array[i])) {
+  var result = []
+  for (var i = 0; i < array.length; i++) {
+    if (func(array[i], i, array)) {
       result.push(array[i])
     }
   }
@@ -9,9 +9,9 @@ function filter(array, func) {
 }
 
 function reject(array, func) {
-  let result = []
-  for (let i = 0; i < array.length; i++) {
-    if (!func(array[i])) {
+  var result = []
+  for (var i = 0; i < array.length; i++) {
+    if (!func(array[i], i, array)) {
       result.push(array[i])
     }
   }
@@ -19,13 +19,5 @@ function reject(array, func) {
 }
 
 function partition(array, func) {
-  let result = [[], []]
-  for (let i = 0; i < array.length; i++) {
-    if (func(array[i])) {
-      result[0].push(array[i])
-    } else {
-      result[1].push(array[i])
-    }
-  }
-  return result
+  return [filter(array, func), reject(array, func)]
 }
