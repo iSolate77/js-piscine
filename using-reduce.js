@@ -1,14 +1,29 @@
-function adder(numbers, initialValue = 0) {
-  return numbers.reduce((acc, num) => acc + num, initialValue)
+function adder(arr, value) {
+  return arr.reduce((acc, item) => acc + item, value === undefined ? 0 : value)
 }
 
-function sumOrMul(numbers, initialValue = 1) {
-  return numbers.reduce(
-    (acc, num) => (num % 2 === 0 ? acc * num : acc + num),
-    initialValue,
+function sumOrMul(arr, value) {
+  return arr.reduce(
+    (acc, item) => {
+      if (item % 2 === 0) {
+        return acc * item
+      } else {
+        return acc + item
+      }
+    },
+    value === undefined ? 0 : value,
   )
 }
 
-function funcExec(functions, initialValue) {
-  return functions.reduce((acc, func) => func(acc), initialValue)
+function funcExec(arr, value) {
+  return arr.reduce(
+    (acc, item) => {
+      if (typeof item === 'function') {
+        return item(acc, value)
+      } else {
+        return acc
+      }
+    },
+    value === undefined ? 0 : value,
+  )
 }
