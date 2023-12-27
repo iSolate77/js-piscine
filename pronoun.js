@@ -4,7 +4,7 @@ function pronoun(text) {
   const result = {}
 
   for (let i = 0; i < words.length; i++) {
-    const word = words[i].toLowerCase()
+    const word = words[i].toLowerCase().replace(/[^\w\s]|_/g, '')
     if (pronouns.includes(word)) {
       if (!result[word]) {
         result[word] = { word: [], count: 0 }
@@ -12,7 +12,7 @@ function pronoun(text) {
       result[word].count++
       const nextWord = words[i + 1]
       if (nextWord) {
-        result[word].word.push(nextWord)
+        result[word].word.push(nextWord.replace(/[^\w\s]|_/g, ''))
       }
     }
   }
