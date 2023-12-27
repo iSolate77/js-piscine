@@ -62,8 +62,8 @@ class Box {
 
   updateDimensions() {
     const rect = this.HTML.getBoundingClientRect()
-    this.x = rect.left
-    this.y = rect.top
+    this.x = rect.left + window.scrollX
+    this.y = rect.top + window.scrollY
     this.width = rect.width
     this.height = rect.height
   }
