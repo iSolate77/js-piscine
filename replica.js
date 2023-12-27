@@ -15,6 +15,10 @@ function deepCopy(obj) {
     return new RegExp(obj.source, obj.flags)
   }
 
+  if (typeof obj === 'function') {
+    return obj
+  }
+
   if (Array.isArray(obj)) {
     return obj.map(deepCopy)
   }
