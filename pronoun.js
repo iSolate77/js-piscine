@@ -11,7 +11,10 @@ function pronoun(text) {
       }
       result[word].count++
       const nextWord = words[i + 1]
-      if (nextWord) {
+      if (
+        nextWord &&
+        !pronouns.includes(nextWord.toLowerCase().replace(/[^\w\s]|_/g, ''))
+      ) {
         result[word].word.push(nextWord.replace(/[^\w\s]|_/g, ''))
       }
     }
