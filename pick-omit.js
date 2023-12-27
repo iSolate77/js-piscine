@@ -1,8 +1,8 @@
 function pick(obj, array) {
-  const result = {}
-  let keysObj = Object.keys(obj)
-  keysObj.forEach((key) => {
-    if (key == array) {
+  let result = {}
+  let keys = Object.keys(obj)
+  keys.forEach((key) => {
+    if (array.includes(key)) {
       result[key] = obj[key]
     }
   })
@@ -10,10 +10,10 @@ function pick(obj, array) {
 }
 
 function omit(obj, array) {
-  const result = {}
-  let keysObj = Object.keys(obj)
-  keysObj.forEach((key) => {
-    if (key != array) {
+  let result = {}
+  let keys = Object.keys(obj)
+  keys.forEach((key) => {
+    if (!array.includes(key)) {
       result[key] = obj[key]
     }
   })
