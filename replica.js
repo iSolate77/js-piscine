@@ -1,43 +1,25 @@
-function isObject(obj) {
-  return obj && typeof obj === 'object' && !Array.isArray(obj)
-}
-
-function deepCopy(obj) {
-  if (obj === null || typeof obj === 'function' || obj instanceof RegExp) {
-    return obj
-  }
-
-  if (obj instanceof Date) {
-    return new Date(obj.getTime())
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(deepCopy)
-  }
-
-  const copiedObject = {}
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      copiedObject[key] = deepCopy(obj[key])
-    }
-  }
-  return copiedObject
-}
+var is = {}
+is.arr = (n) => Array.isArray(n)
+is.obj = (n) =>
+  typeof n === 'object' &&
+  !is.fun(n) &&
+  !is.arr(n) &&
+  n !== null &&
+  !(n instanceof RegExp)
+is.fun = (n) => typeof n === 'function'
 
 function replica(target, ...sources) {
-  if (!sources.length) return target
-  const source = sources.shift()
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} })
+  sources.forEach((source) => {
+    Object.keys(source).forEach((key) => {
+      if (is.obj(source[key])) {
+        if (!target.hasOwnProperty(key) || !is.obj(target[key])) {
+          target[key] = {}
+        }
         replica(target[key], source[key])
       } else {
-        Object.assign(target, { [key]: deepCopy(source[key]) })
+        target[key] = source[key]
       }
-    }
-  }
-
-  return replica(target, ...sources)
+    })
+  })
+  return target
 }
