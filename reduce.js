@@ -1,33 +1,29 @@
-function fold(array, callback, initialValue) {
-  let accumulator = initialValue === undefined ? array[0] : initialValue
-  for (let i = 0; i < array.length; i++) {
-    accumulator = callback(accumulator, array[i])
+function fold(arr, f, acc) {
+  for (var i = 0; i < arr.length; i++) {
+    acc = f(acc, arr[i], i, arr)
   }
-  return accumulator
+  return acc
 }
 
-function foldRight(array, callback, initialValue) {
-  let accumulator =
-    initialValue === undefined ? array[array.length - 1] : initialValue
-  for (let i = array.length - 1; i >= 0; i--) {
-    accumulator = callback(accumulator, array[i])
+function foldRight(arr, f, acc) {
+  for (var i = arr.length - 1; i >= 0; i--) {
+    acc = f(acc, arr[i], i, arr)
   }
-  return accumulator
+  return acc
 }
 
-function reduce(array, callback, initialValue) {
-  let accumulator = initialValue === undefined ? array[0] : initialValue
-  for (let i = 0; i < array.length; i++) {
-    accumulator = callback(accumulator, array[i])
+function reduce(arr, f) {
+  let acc = arr[0]
+  for (var i = 1; i < arr.length; i++) {
+    acc = f(acc, arr[i], i, arr)
   }
-  return accumulator
+  return acc
 }
 
-function reduceRight(array, callback, initialValue) {
-  let accumulator =
-    initialValue === undefined ? array[array.length - 1] : initialValue
-  for (let i = array.length - 1; i >= 0; i--) {
-    accumulator = callback(accumulator, array[i])
+function reduceRight(arr, f) {
+  let acc = arr[arr.length - 1]
+  for (var i = arr.length - 2; i >= 0; i--) {
+    acc = f(acc, arr[i], i, arr)
   }
-  return accumulator
+  return acc
 }
