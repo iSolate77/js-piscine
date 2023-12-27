@@ -32,11 +32,16 @@ class Circle {
   }
 
   checkIfTrapped() {
+    const circleLeftEdge = this.x - this.diameter / 2
+    const circleRightEdge = this.x + this.diameter / 2
+    const circleTopEdge = this.y - this.diameter / 2
+    const circleBottomEdge = this.y + this.diameter / 2
+
     if (
-      this.x > box.x &&
-      this.x < box.x + box.width &&
-      this.y > box.y &&
-      this.y < box.y + box.height
+      circleLeftEdge >= box.x &&
+      circleRightEdge <= box.x + box.width &&
+      circleTopEdge >= box.y &&
+      circleBottomEdge <= box.y + box.height
     ) {
       this.isTrapped = true
       this.HTML.style.background = 'var(--purple)'
