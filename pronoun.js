@@ -1,23 +1,21 @@
-function pronoun(str) {
-  let pronouns = ['i', 'you', 'he', 'she', 'it', 'they', 'we']
-  let words = str.split(' ')
-  let result = {}
+function pronoun(text) {
+  const pronouns = ['i', 'you', 'he', 'she', 'it', 'they', 'we']
+  const words = text.split(/\s+/)
+  const result = {}
+
   for (let i = 0; i < words.length; i++) {
-    let word = words[i]
-    if (pronouns.includes(word.toLowerCase())) {
-      let pronoun = word.toLowerCase()
-      let nextWord = words[i + 1]
-      if (!result[pronoun]) {
-        result[pronoun] = {
-          word: [],
-          count: 0,
-        }
+    const word = words[i].toLowerCase()
+    if (pronouns.includes(word)) {
+      if (!result[word]) {
+        result[word] = { word: [], count: 0 }
       }
+      result[word].count++
+      const nextWord = words[i + 1]
       if (nextWord) {
-        result[pronoun].word.push(nextWord)
+        result[word].word.push(nextWord)
       }
-      result[pronoun].count++
     }
   }
+
   return result
 }
