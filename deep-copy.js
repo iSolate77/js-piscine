@@ -3,6 +3,18 @@ function deepCopy(obj) {
     return obj
   }
 
+  if (obj instanceof Date) {
+    return new Date(obj.getTime())
+  }
+
+  if (obj instanceof RegExp) {
+    return new RegExp(obj.source, obj.flags)
+  }
+
+  if (typeof obj === 'function') {
+    return obj
+  }
+
   let clone
 
   if (Array.isArray(obj)) {
