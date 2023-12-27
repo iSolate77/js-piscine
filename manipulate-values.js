@@ -1,7 +1,7 @@
 function filterValues(obj, callback) {
   let result = {}
   for (let key in obj) {
-    if (obj.hasOwnProperty(key) && callback(obj[key])) {
+    if (callback(obj[key])) {
       result[key] = obj[key]
     }
   }
@@ -11,19 +11,17 @@ function filterValues(obj, callback) {
 function mapValues(obj, callback) {
   let result = {}
   for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      result[key] = callback(obj[key])
-    }
+    result[key] = callback(obj[key])
   }
   return result
 }
 
-function reduceValues(obj, callback, initialValue) {
-  let accumulator = initialValue
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      accumulator = callback(accumulator, obj[key])
-    }
+function reduceValues(obj, callback, acc) {
+  if (acc === undefined) {
+    acc = 0
   }
-  return accumulator
+  for (let key in obj) {
+    acc = callback(acc, obj[key])
+  }
+  return acc
 }
