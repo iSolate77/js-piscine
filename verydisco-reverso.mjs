@@ -9,7 +9,7 @@ const verydisco = (filename) => {
 
     const words = data.split(' ')
     const transformedWords = words.map((word) => {
-      const middle = Math.floor((word.length + 1) / 2)
+      const middle = Math.floor(word.length / 2)
       const firstHalf = word.slice(0, middle)
       const secondHalf = word.slice(middle)
       return secondHalf + firstHalf
