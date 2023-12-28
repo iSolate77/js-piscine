@@ -1,22 +1,23 @@
-const fs = require('fs');
+const fs = require('fs')
 
-const reverseString = (str) => {
-  let reversed = '';
-  for (let i = str.length - 1; i >= 0; i--) {
-    reversed += str[i];
-  }
-  return reversed;
-};
+const verydisco = (filename) => {
+  fs.readFile(filename, 'utf8', (err, data) => {
+    if (err) {
+      console.error(`Error reading file: ${err}`)
+      return
+    }
 
-const decipherFile = (filePath) => {
-  try {
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const reversedContent = reverseString(content);
-    console.log(reversedContent);
-  } catch (error) {
-    console.error('Error reading file:', error);
-  }
-};
+    const words = data.split(' ')
+    const transformedWords = words.map((word) => {
+      const middle = Math.floor((word.length + 1) / 2)
+      const firstHalf = word.slice(0, middle)
+      const secondHalf = word.slice(middle)
+      return secondHalf + firstHalf
+    })
 
-const filePath = process.argv[2];
-decipherFile(filePath);
+    console.log(transformedWords.join(' '))
+  })
+}
+
+const filename = process.argv[2]
+verydisco(filename)
