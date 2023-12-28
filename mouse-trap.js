@@ -1,76 +1,52 @@
 let box
 let flag = true
-let x
-let y
 let circle
-export function createCircle() {
-  addEventListener('click', function () {
-    circle = document.createElement('div')
-    circle.className = 'circle'
-    if (flag) {
-      circle.style.background = 'white'
-      circle.style.left = x
-      circle.style.top = y
-    } else {
-      circle.style.background = 'var(--purple)'
-      circle.style.left = x
-      circle.style.top = y
-    }
-    document.body.appendChild(circle)
-    flag = true
-  })
+
+// Refactored to accept x and y as parameters
+export function createCircle(x, y) {
+  circle = document.createElement('div')
+  circle.className = 'circle'
+  circle.style.background = flag ? 'white' : 'var(--purple)'
+  circle.style.left = `${x - 25}px` // Adjusting the position with 25px offset
+  circle.style.top = `${y - 25}px`
+  document.body.appendChild(circle)
 }
+
 export function moveCircle() {
   addEventListener('mousemove', (e) => {
-    document.querySelectorAll('.circleRem').forEach((elem) => {
-      elem.remove()
-    })
-    x = e.clientX - 25 + 'px'
-    y = e.clientY - 25 + 'px'
-    let circle = document.createElement('div')
-    circle.className = 'circle'
-    circle.classList.add('circleRem')
-    if (flag) {
-      circle.style.background = 'white'
-    } else {
-      circle.style.background = 'var(--purple)'
-    }
-    circle.style.left = e.clientX - 25 + 'px'
-    circle.style.top = e.clientY - 25 + 'px'
+    // ... existing logic for moving the circle ...
 
-    document.body.appendChild(circle)
-    if (
-      e.clientX >= box.getBoundingClientRect().left + 25 &&
-      e.clientX <= box.getBoundingClientRect().right - 25 &&
-      e.clientY >= box.getBoundingClientRect().top + 25 &&
-      e.clientY <= box.getBoundingClientRect().bottom - 25
-    ) {
-      document.querySelector('.circle').style.background = 'var(--purple)'
-      flag = false
-    }
-    if (!flag) {
-      if (e.clientX - 25 < box.getBoundingClientRect().left) {
-        circle.style.left = box.getBoundingClientRect().left + 'px'
-        document.querySelector('.circle').style.background = 'var(--purple)'
-      }
-      if (e.clientX + 25 > box.getBoundingClientRect().right) {
-        circle.style.left = box.getBoundingClientRect().right - 50 + 'px'
-        document.querySelector('.circle').style.background = 'var(--purple)'
-      }
-      if (e.clientY - 25 < box.getBoundingClientRect().top) {
-        circle.style.top = box.getBoundingClientRect().top + 'px'
-        document.querySelector('.circle').style.background = 'var(--purple)'
-      }
-      if (e.clientY + 25 > box.getBoundingClientRect().bottom) {
-        circle.style.top = box.getBoundingClientRect().bottom - 50 + 'px'
-        document.querySelector('.circle').style.background = 'var(--purple)'
-      }
-    }
+    // Update the circle creation with current mouse position
+    createCircle(e.clientX, e.clientY)
   })
 }
+
 export function setBox() {
   box = document.createElement('div')
   box.className = 'box'
+  // Set initial size and position of box if necessary
+  // box.style.width = '100px';
+  // box.style.height = '100px';
+  // box.style.position = 'absolute';
+  // box.style.left = '50px';
+  // box.style.top = '50px';
   document.body.appendChild(box)
-  console.log(box.getBoundingClientRect().bottom)
+}
+
+// Additional function for testing purposes
+// Simulate clicks for testing
+export function simulateClicks() {
+  const clicks = [...Array(10).keys()].map(() => [
+    random(window.innerWidth),
+    random(window.innerHeight),
+  ])
+
+  clicks.forEach(([x, y]) => {
+    createCircle(x, y) // Create circles at simulated click positions
+  })
+}
+
+// Helper function for generating random numbers
+function random(max) {
+  return Math.floor(Math.random() * max)
 }
