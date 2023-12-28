@@ -1,93 +1,76 @@
-var circles = []
-var box
-
-class Circle {
-  constructor(x, y) {
-    this.x = x
-    this.y = y
-    this.diameter = 50
-    this.isTrapped = false
-    this.draw()
-    circles.push(this)
-  }
-
-  draw() {
-    this.HTML = document.createElement('div')
-    this.HTML.className = 'circle'
-    this.updatePosition()
-    document.body.appendChild(this.HTML)
-  }
-
-  move(x, y) {
-    this.x = x
-    this.y = y
-    this.updatePosition()
-    this.checkIfTrapped()
-  }
-
-  updatePosition() {
-    this.HTML.style.position = 'absolute'
-    this.HTML.style.left = `${this.x - this.diameter / 2}px`
-    this.HTML.style.top = `${this.y - this.diameter / 2}px`
-  }
-
-  checkIfTrapped() {
-    const circleLeftEdge = this.x - this.diameter / 2
-    const circleRightEdge = this.x + this.diameter / 2
-    const circleTopEdge = this.y - this.diameter / 2
-    const circleBottomEdge = this.y + this.diameter / 2
-
-    if (
-      circleLeftEdge >= box.x &&
-      circleRightEdge <= box.x + box.width &&
-      circleTopEdge >= box.y &&
-      circleBottomEdge <= box.y + box.height
-    ) {
-      this.isTrapped = true
-      this.HTML.style.background = 'var(--purple)'
+let box
+let flag = true
+let x
+let y
+let circle
+export function createCircle() {
+  addEventListener('click', function () {
+    circle = document.createElement('div')
+    circle.className = 'circle'
+    if (flag) {
+      circle.style.background = 'white'
+      circle.style.left = x
+      circle.style.top = y
     } else {
-      this.isTrapped = false
-      this.HTML.style.background = 'white'
+      circle.style.background = 'var(--purple)'
+      circle.style.left = x
+      circle.style.top = y
     }
-  }
-}
-
-class Box {
-  constructor() {
-    this.HTML = document.createElement('div')
-    this.HTML.className = 'box'
-    document.body.appendChild(this.HTML)
-    this.updateDimensions()
-  }
-
-  updateDimensions() {
-    const rect = this.HTML.getBoundingClientRect()
-    this.x = rect.left + window.scrollX
-    this.y = rect.top + window.scrollY
-    this.width = rect.width
-    this.height = rect.height
-  }
-}
-
-function createCircle() {
-  document.body.addEventListener('click', (e) => {
-    new Circle(e.clientX, e.clientY)
+    document.body.appendChild(circle)
+    flag = true
   })
 }
+export function moveCircle() {
+  addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.circleRem').forEach((elem) => {
+      elem.remove()
+    })
+    x = e.clientX - 25 + 'px'
+    y = e.clientY - 25 + 'px'
+    let circle = document.createElement('div')
+    circle.className = 'circle'
+    circle.classList.add('circleRem')
+    if (flag) {
+      circle.style.background = 'white'
+    } else {
+      circle.style.background = 'var(--purple)'
+    }
+    circle.style.left = e.clientX - 25 + 'px'
+    circle.style.top = e.clientY - 25 + 'px'
 
-function moveCircle() {
-  document.body.addEventListener('mousemove', (e) => {
-    if (circles.length > 0) {
-      const lastCircle = circles[circles.length - 1]
-      if (!lastCircle.isTrapped) {
-        lastCircle.move(e.clientX, e.clientY)
+    document.body.appendChild(circle)
+    if (
+      e.clientX >= box.getBoundingClientRect().left + 25 &&
+      e.clientX <= box.getBoundingClientRect().right - 25 &&
+      e.clientY >= box.getBoundingClientRect().top + 25 &&
+      e.clientY <= box.getBoundingClientRect().bottom - 25
+    ) {
+      document.querySelector('.circle').style.background = 'var(--purple)'
+      flag = false
+    }
+    if (!flag) {
+      if (e.clientX - 25 < box.getBoundingClientRect().left) {
+        circle.style.left = box.getBoundingClientRect().left + 'px'
+        document.querySelector('.circle').style.background = 'var(--purple)'
+      }
+      if (e.clientX + 25 > box.getBoundingClientRect().right) {
+        circle.style.left = box.getBoundingClientRect().right - 50 + 'px'
+        document.querySelector('.circle').style.background = 'var(--purple)'
+      }
+      if (e.clientY - 25 < box.getBoundingClientRect().top) {
+        circle.style.top = box.getBoundingClientRect().top + 'px'
+        document.querySelector('.circle').style.background = 'var(--purple)'
+      }
+      if (e.clientY + 25 > box.getBoundingClientRect().bottom) {
+        circle.style.top = box.getBoundingClientRect().bottom - 50 + 'px'
+        document.querySelector('.circle').style.background = 'var(--purple)'
       }
     }
   })
 }
-
-function setBox() {
-  box = new Box()
+export function setBox() {
+  box = document.createElement('div')
+  box.className = 'box'
+  document.body.appendChild(box)
+  console.log(box.getBoundingClientRect().bottom)
 }
-
-export { createCircle, moveCircle, setBox }
