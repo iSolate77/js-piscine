@@ -2,7 +2,9 @@ import process from 'process'
 import fs from 'fs'
 
 const verydisco = (input) => {
-  const words = input.split(' ')
+  const words = input
+    .match(/"[^"]+"|\S+/g)
+    .map((word) => word.replace(/"/g, ''))
   const transformedWords = words.map((word) => {
     const middle = Math.ceil(word.length / 2)
     const firstHalf = word.slice(0, middle)
@@ -12,7 +14,7 @@ const verydisco = (input) => {
   return transformedWords.join(' ')
 }
 
-const input = process.argv[2]
+const input = process.argv.slice(2).join(' ')
 const result = verydisco(input)
 
 fs.writeFile('verydisco-forever.txt', result, (err) => {
