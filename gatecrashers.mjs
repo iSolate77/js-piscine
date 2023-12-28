@@ -2,7 +2,7 @@ import http from 'http'
 import { promises as fs } from 'fs'
 import path from 'path'
 
-let port = 5000
+const port = 5000
 const authorizedUsers = {
   Caleb_Squires: 'abracadabra',
   Tyrique_Dalton: 'abracadabra',
@@ -70,8 +70,6 @@ server.listen(port, () => console.log(`Server running on port ${port}`))
 server.on('error', (error) => {
   if (error.code === 'EADDRINUSE') {
     console.log(`Port ${port} is busy`)
-    port += 1
-    server.listen(port, () => console.log(`Server running on port ${port}`))
   } else {
     console.error(error)
   }
