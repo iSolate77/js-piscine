@@ -1,21 +1,22 @@
-import fs from 'fs/promises'
+const fs = require('fs');
 
-async function decipherVeryDisco(filename) {
-  try {
-    const content = await fs.readFile(filename, 'utf8')
-    const deciphered = content.split('').reverse().join('')
-
-    console.log(deciphered)
-  } catch (error) {
-    console.error('Error reading the file:', error.message)
+const reverseString = (str) => {
+  let reversed = '';
+  for (let i = str.length - 1; i >= 0; i--) {
+    reversed += str[i];
   }
-}
+  return reversed;
+};
 
-const filename = process.argv[2]
+const decipherFile = (filePath) => {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const reversedContent = reverseString(content);
+    console.log(reversedContent);
+  } catch (error) {
+    console.error('Error reading file:', error);
+  }
+};
 
-if (!filename) {
-  console.error('Please provide a filename as an argument.')
-  process.exit(1)
-}
-
-decipherVeryDisco(filename)
+const filePath = process.argv[2];
+decipherFile(filePath);
