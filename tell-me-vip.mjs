@@ -36,7 +36,7 @@ const main = async (dirName) => {
 
 const dirName = process.argv[2]
 if (!dirName) {
-  console.error('Please provide a directory name as an argument.')import { fileURLToPath } from 'url'
+  console.error('Please provide a directory name as an argument.')
   process.exit(1)
 }
 
