@@ -1,5 +1,6 @@
-async function getJSON(path, params = {}) {
-  const url = new URL(path)
+async function getJSON(path, params = {}, baseUrl = 'http://localhost') {
+  const url = new URL(path, baseUrl)
+
   Object.keys(params).forEach((key) =>
     url.searchParams.append(key, params[key]),
   )
