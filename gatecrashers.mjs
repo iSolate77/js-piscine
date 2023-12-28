@@ -31,8 +31,18 @@ const server = http.createServer(async (req, res) => {
           const guestName = req.url.slice(1)
           const filePath = path.join('./guests', `${guestName}.json`)
           await fs.writeFile(filePath, body, 'utf8')
-          res.writeHead(201)
-          res.end(body)
+
+          let responseBody
+          try {
+            responseBody = JSON.parse(body)
+          } catch (jsonError) {
+            res.writeHead(500)
+            res.end(JSON.stringify({ error: 'Invalid JSON in request' }))
+            return
+          }
+
+          res.writeHead(200)
+          res.end(JSON.stringify(responseBody))
         } catch (err) {
           res.writeHead(500)
           res.end(JSON.stringify({ error: 'server failed' }))
