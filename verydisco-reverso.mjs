@@ -8,7 +8,16 @@ fs.readFile(filename, 'utf8', (err, data) => {
     return
   }
 
-  const reversedContent = data.split('').reverse().join('')
+  const words = data.split(' ')
+
+  const reversedWords = words.map((word) => {
+    const middle = Math.ceil(word.length / 2)
+    const firstHalf = word.slice(0, middle)
+    const secondHalf = word.slice(middle)
+    return secondHalf + firstHalf
+  })
+
+  const reversedContent = reversedWords.join(' ')
 
   console.log(reversedContent)
 })
