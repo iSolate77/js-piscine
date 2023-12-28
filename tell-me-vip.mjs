@@ -11,16 +11,26 @@ async function getVipGuests(dirPath) {
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'))
 
       if (content.answer.toLowerCase() === 'yes') {
-        const [lastName, firstName] = file.replace('.json', '').split('_')
-        guests.push(`${lastName} ${firstName}`)
+        const [lastName, firstName] = file.split('.')[0].split('_')
+        guests.push({ lastName, firstName })
       }
     }
 
-    guests.sort()
-    const formattedGuests = guests.map((name, index) => `${index + 1}. ${name}`)
+    // Sort guests first by last name, then by first name
+    guests.sort((a, b) => {
+      if (a.lastName === b.lastName) {
+        return a.firstName.localeCompare(b.firstName)
+      }
+      return a.lastName.localeCompare(b.lastName)
+    })
 
-    await fs.writeFile('vip.txt', formattedGuests.join('\n'), 'utf8')
-    return formattedGuests.join('\n')
+    const formattedGuests = guests.map(
+      (guest, index) => `${index + 1}. ${guest.lastName} ${guest.firstName}`,
+    )
+
+    const vipList = formattedGuests.join('\n')
+    await fs.writeFile('vip.txt', vipList, 'utf8')
+    return vipList
   } catch (error) {
     console.error('Error processing the guest files:', error.message)
   }
@@ -33,4 +43,8 @@ if (!dirPath) {
   process.exit(1)
 }
 
-getVipGuests(dirPath)
+getVipGuests(dirPath).then((result) => {
+  if (result) {
+    console.log(result)
+  }
+})
