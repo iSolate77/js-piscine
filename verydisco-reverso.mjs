@@ -1,7 +1,7 @@
-const fs = require('fs')
+import { readFile } from 'fs'
 
 const verydisco = (filename) => {
-  fs.readFile(filename, 'utf8', (err, data) => {
+  readFile(filename, 'utf8', (err, data) => {
     if (err) {
       console.error(`Error reading file: ${err}`)
       return
