@@ -1,20 +1,37 @@
-function debounce(fn, wait) {
+function debounce(func, wait) {
   let timeout
-  return function (...args) {
-    const context = this
+
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+
     clearTimeout(timeout)
-    timeout = setTimeout(() => fn.apply(context, args), wait)
+    timeout = setTimeout(later, wait)
   }
 }
 
-function opDebounce(fn, wait) {
+function opDebounce(func, wait, options = {}) {
   let timeout
-  return function (...args) {
-    const context = this
-    if (!timeout) {
-      fn.apply(context, args)
+  let isLeadingCall = false
+
+  return function executedFunction(...args) {
+    const shouldCallNow = options.leading && !isLeadingCall
+    const later = () => {
+      if (!options.leading || isLeadingCall) {
+        func(...args)
+      }
+      isLeadingCall = false
+      timeout = null
     }
+
     clearTimeout(timeout)
-    timeout = setTimeout(() => (timeout = null), wait)
+    timeout = setTimeout(later, wait)
+
+    if (shouldCallNow) {
+      isLeadingCall = true
+      func(...args)
+    }
   }
 }
