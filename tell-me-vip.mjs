@@ -1,41 +1,36 @@
 import { promises as fs } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import path from 'path'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-const formatGuest = (guest, index) =>
-  `${index + 1}. ${guest.lastname.toUpperCase()} ${guest.firstname}`
-
-const formatGuests = (guests) => guests.map(formatGuest).join('\n')
-
-const filterGuests = (guests) =>
-  guests.filter((guest) => guest.answer === 'YES')
-
-const readGuestsFromDir = async (dirPath) => {
-  const fileNames = await fs.readdir(dirPath)
-  const guestPromises = fileNames.map((fileName) =>
-    fs.readFile(join(dirPath, fileName), 'utf-8').then(JSON.parse),
-  )
-  return Promise.all(guestPromises)
-}
-
-const main = async (dirName) => {
-  if (!dirName) {
-    throw new Error('Please provide a directory name as an argument.')
-  }
-
-  const dirPath = join(__dirname, dirName)
-  const vipPath = join(__dirname, 'vip.txt')
-
+async function getVipGuests(dirPath) {
   try {
-    const guests = await readGuestsFromDir(dirPath)
-    const vipGuests = filterGuests(guests)
-    const formattedGuests = formatGuests(vipGuests)
-    await fs.writeFile(vipPath, formattedGuests)
-  } catch (err) {
-    console.error(err.message)
+    const files = await fs.readdir(dirPath)
+    const guests = []
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file)
+      const content = JSON.parse(await fs.readFile(filePath, 'utf8'))
+
+      if (content.answer.toLowerCase() === 'yes') {
+        const [lastName, firstName] = file.replace('.json', '').split('_')
+        guests.push(`${lastName} ${firstName}`)
+      }
+    }
+
+    guests.sort()
+    const formattedGuests = guests.map((name, index) => `${index + 1}. ${name}`)
+
+    await fs.writeFile('vip.txt', formattedGuests.join('\n'), 'utf8')
+    return formattedGuests.join('\n')
+  } catch (error) {
+    console.error('Error processing the guest files:', error.message)
   }
 }
 
-main(process.argv[2])
+const dirPath = process.argv[2]
+
+if (!dirPath) {
+  console.error('Please provide a directory path as an argument.')
+  process.exit(1)
+}
+
+getVipGuests(dirPath)
