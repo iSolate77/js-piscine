@@ -73,7 +73,6 @@
 //   } else {
 //     console.error(error)
 //   }
-// })
 import { spawn } from 'node:child_process'
 import { mkdir } from 'fs/promises'
 import http from 'http'
@@ -139,3 +138,4 @@ export const setup = async () => {
     startServer,
   }
 }
+// })
