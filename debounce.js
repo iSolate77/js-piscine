@@ -14,24 +14,27 @@ function debounce(func, wait) {
 
 function opDebounce(func, wait, options = {}) {
   let timeout
-  let isLeadingCall = false
+  let lastInvocationTime
+  let result
 
   return function executedFunction(...args) {
-    const shouldCallNow = options.leading && !isLeadingCall
-    const later = () => {
-      if (!options.leading || isLeadingCall) {
-        func(...args)
-      }
-      isLeadingCall = false
-      timeout = null
-    }
+    const now = Date.now()
+    const isLeadingCall =
+      options.leading &&
+      (!lastInvocationTime || now - lastInvocationTime >= wait)
 
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-
-    if (shouldCallNow) {
-      isLeadingCall = true
-      func(...args)
+    if (isLeadingCall) {
+      lastInvocationTime = now
+      result = func(...args)
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        lastInvocationTime = options.leading ? Date.now() : null
+        timeout = null
+        if (!options.leading || lastInvocationTime) {
+          result = func(...args)
+        }
+      }, wait)
     }
+    return result
   }
 }
