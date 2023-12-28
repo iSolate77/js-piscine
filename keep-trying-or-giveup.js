@@ -1,13 +1,15 @@
 function retry(count, callback) {
-  return async function(...args) {
-    let i = 0;
-    while (i < count) {
+  return async function (...args) {
+    let attempts = 0
+    while (attempts <= count) {
       try {
-        return await callback(...args);
-      } catch (err) {
-        i++;
+        return await callback(...args)
+      } catch (error) {
+        if (attempts === count) {
+          throw new Error('Maximum retry attempts reached')
+        }
+        attempts++
       }
     }
-    throw new Error();
-  };
+  }
 }
