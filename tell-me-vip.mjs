@@ -12,11 +12,10 @@ async function getVipGuests(dirPath) {
 
       if (content.answer.toLowerCase() === 'yes') {
         const [lastName, firstName] = file.split('.')[0].split('_')
-        guests.push(`${lastName} ${firstName}`)
+        guests.push(`${firstName} ${lastName}`)
       }
     }
 
-    // Sort guests alphabetically
     guests.sort()
 
     const formattedGuests = guests.map(
