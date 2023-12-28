@@ -11,7 +11,8 @@ fs.readdir(directoryPath)
   })
   .then((contents) => {
     const names = contents.map((content) => {
-      const [firstName, lastName] = content.split(' ')
+      const [firstName, lastNameWithExtension] = content.split('_')
+      const lastName = lastNameWithExtension.replace('.json', '')
       return { firstName, lastName }
     })
 
