@@ -6,18 +6,25 @@ function all(obj) {
   return new Promise((resolve, reject) => {
     let result = {}
     let keys = Object.keys(obj)
-    let promises = keys.map((key, index) => {
+    let pending = keys.length
+
+    if (pending === 0) {
+      resolve(result)
+    }
+
+    keys.forEach((key) => {
       let value = obj[key]
-      return (value instanceof Promise ? value : Promise.resolve(value))
+      Promise.resolve(value)
         .then((data) => {
           result[key] = data
+          pending--
+          if (pending === 0) {
+            resolve(result)
+          }
         })
         .catch((error) => {
-          throw error
+          reject(error)
         })
     })
-    Promise.all(promises)
-      .then(() => resolve(result))
-      .catch((error) => reject(error))
   })
 }
