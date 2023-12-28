@@ -1,4 +1,8 @@
 function all(obj) {
+  if (Object.keys(obj).length === 0) {
+    return Promise.resolve({})
+  }
+
   return new Promise((resolve, reject) => {
     let result = {}
     let keys = Object.keys(obj)
