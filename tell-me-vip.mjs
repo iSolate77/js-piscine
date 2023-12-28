@@ -1,5 +1,8 @@
 import { promises as fs } from 'fs'
-import { join } from 'path'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const formatGuest = (guest, index) =>
   `${index + 1}. ${guest.lastname.toUpperCase()} ${guest.firstname}`
@@ -33,7 +36,7 @@ const main = async (dirName) => {
 
 const dirName = process.argv[2]
 if (!dirName) {
-  console.error('Please provide a directory name as an argument.')
+  console.error('Please provide a directory name as an argument.')import { fileURLToPath } from 'url'
   process.exit(1)
 }
 
