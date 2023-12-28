@@ -1,21 +1,21 @@
-async function getJSON(path, params) {
-  let url = new URL(path)
-  if (params) {
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key]),
-    )
+async function getJSON(path, params = {}) {
+  const url = new URL(path)
+  Object.keys(params).forEach((key) =>
+    url.searchParams.append(key, params[key]),
+  )
+
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(response.statusText)
+    }
+    const parsedResponse = await response.json()
+
+    if (parsedResponse.error) {
+      throw new Error(parsedResponse.error)
+    }
+    return parsedResponse.data
+  } catch (error) {
+    throw error
   }
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText)
-      }
-      return response.json()
-    })
-    .then((data) => {
-      if (data.error) {
-        throw new Error(data.error)
-      }
-      return data.data
-    })
 }
