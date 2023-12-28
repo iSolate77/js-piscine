@@ -15,7 +15,7 @@ const verydisco = (input) => {
 }
 
 const input =
-  process.argv.length > 3 ? process.argv.slice(2).join(' ') : process.argv[2]
+  process.argv.length > 3 ? process.argv.slice(2).join('') : process.argv[2]
 const result = verydisco(input)
 
 fs.writeFile('verydisco-forever.txt', result, (err) => {
