@@ -9,6 +9,12 @@ const authorizedUsers = {
   Rahima_Young: 'abracadabra',
 }
 
+function isAuthorized(authHeader) {
+  const encodedCredentials = authHeader.split(' ')[1]
+  const [username, password] = Buffer.from(encodedCredentials, 'base64').toString().split(':')
+  return authorizedUsers[username] === password
+}
+
 const server = http.createServer(async (req, res) => {
   try {
     res.setHeader('Content-Type', 'application/json')
@@ -35,7 +41,7 @@ const server = http.createServer(async (req, res) => {
           try {
             requestBody = JSON.parse(body)
           } catch (jsonError) {
-            res.writeHead(400) 
+            res.writeHead(400)
             res.end(JSON.stringify({ error: 'Invalid JSON in request' }))
             return
           }
@@ -43,29 +49,19 @@ const server = http.createServer(async (req, res) => {
           await fs.writeFile(filePath, JSON.stringify(requestBody), 'utf8')
           res.writeHead(200)
           res.end(JSON.stringify(requestBody))
-        } catch (err) {
+        } catch (error) {
           res.writeHead(500)
-          res.end(JSON.stringify({ error: 'server failed' }))
+          res.end(JSON.stringify({ error: 'Internal Server Error' }))
         }
       })
     } else {
-      res.writeHead(500)
-      res.end(JSON.stringify({ error: 'server failed' }))
+      res.writeHead(405)
+      res.end(JSON.stringify({ error: 'Method Not Allowed' }))
     }
-  } catch (err) {
+  } catch (error) {
     res.writeHead(500)
-    res.end(JSON.stringify({ error: 'server failed' }))
+    res.end(JSON.stringify({ error: 'Internal Server Error' }))
   }
 })
 
-function isAuthorized(authHeader) {
-  const token = authHeader.split(' ')[1]
-  const [username, password] = Buffer.from(token, 'base64')
-    .toString('utf8')
-    .split(':')
-  return authorizedUsers[username] === password
-}
-
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
-})
+server.listen(port)
