@@ -12,20 +12,15 @@ async function getVipGuests(dirPath) {
 
       if (content.answer.toLowerCase() === 'yes') {
         const [lastName, firstName] = file.split('.')[0].split('_')
-        guests.push({ lastName, firstName })
+        guests.push(`${lastName} ${firstName}`)
       }
     }
 
-    // Sort guests first by last name, then by first name
-    guests.sort((a, b) => {
-      if (a.lastName === b.lastName) {
-        return a.firstName.localeCompare(b.firstName)
-      }
-      return a.lastName.localeCompare(b.lastName)
-    })
+    // Sort guests alphabetically
+    guests.sort()
 
     const formattedGuests = guests.map(
-      (guest, index) => `${index + 1}. ${guest.lastName} ${guest.firstName}`,
+      (guest, index) => `${index + 1}. ${guest}`,
     )
 
     const vipList = formattedGuests.join('\n')
