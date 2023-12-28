@@ -21,6 +21,10 @@ const readGuestsFromDir = async (dirPath) => {
 }
 
 const main = async (dirName) => {
+  if (!dirName) {
+    throw new Error('Please provide a directory name as an argument.')
+  }
+
   const dirPath = join(__dirname, dirName)
   const vipPath = join(__dirname, 'vip.txt')
 
@@ -34,10 +38,4 @@ const main = async (dirName) => {
   }
 }
 
-const dirName = process.argv[2]
-if (!dirName) {
-  console.error('Please provide a directory name as an argument.')
-  process.exit(1)
-}
-
-main(dirName)
+main(process.argv[2])
