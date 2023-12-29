@@ -10,6 +10,10 @@ const authorizedUsers = {
 }
 
 function isAuthorized(authHeader) {
+  if (!authHeader) {
+    return false
+  }
+
   const encodedCredentials = authHeader.split(' ')[1]
   const [username, password] = Buffer.from(encodedCredentials, 'base64')
     .toString()
@@ -23,7 +27,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'POST') {
       const authHeader = req.headers['authorization']
-      if (!authHeader || !isAuthorized(authHeader)) {
+      if (!isAuthorized(authHeader)) {
         res.writeHead(401)
         res.end(JSON.stringify({ error: 'Unauthorized' }))
         return
@@ -36,22 +40,10 @@ const server = http.createServer(async (req, res) => {
 
       req.on('end', async () => {
         try {
-          const newGuestNames = []
           const guestName = req.url.slice(1)
           const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
-          for (const guestName of newGuestNames) {
-            const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
-            await fs.writeFile(
-              filePath,
-              JSON.stringify({ answer: 'yes', drink: 'juice', food: 'pizza' }),
-            )
-            res.writeHead(200)
-            res.end(
-              JSON.stringify({ answer: 'yes', drink: 'juice', food: 'pizza' }),
-            )
-          }
-
           const requestBody = JSON.parse(body)
+
           await fs.writeFile(filePath, JSON.stringify(requestBody))
           res.writeHead(200)
           res.end(JSON.stringify(requestBody))
