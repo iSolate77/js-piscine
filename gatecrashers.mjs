@@ -37,7 +37,7 @@ const server = http.createServer(async (req, res) => {
       req.on('end', async () => {
         try {
           const guestName = req.url.slice(1)
-          const filePath = path.join('./guests', `${guestName}.json`)
+          const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
           const requestBody = JSON.parse(body)
 
           await fs.writeFile(filePath, JSON.stringify(requestBody))
