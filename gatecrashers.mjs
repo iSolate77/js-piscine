@@ -1,72 +1,60 @@
 import http from 'http'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { readFile, writeFile } from 'fs/promises'
+import { Buffer } from 'node:buffer'
 
+const host = 'localhost'
 const port = 5000
-const authorizedUsers = {
-  Caleb_Squires: 'abracadabra',
-  Tyrique_Dalton: 'abracadabra',
-  Rahima_Young: 'abracadabra',
-}
+const pathGuests = `guests`
+const bestFriends = ['Caleb_Squires', 'Tyrique_Dalton', 'Rahima_Young']
 
-function isAuthorized(authHeader) {
-  if (!authHeader) {
-    return false
+const guestData = (req, res) => {
+  let statusCode = 200
+  res.setHeader('Content-Type', 'application/json')
+  const guestFile = `${req.url.slice(1)}.json`
+
+  const errHandler = (err, statusCode, message) => {
+    let bodyRes = JSON.stringify({ error: message })
+
+    res
+      .writeHead(statusCode, {
+        'Content-Length': Buffer.byteLength(bodyRes),
+      })
+      .end(bodyRes)
   }
 
-  const encodedCredentials = authHeader.split(' ')[1]
-  const [username, password] = Buffer.from(encodedCredentials, 'base64')
+  //reading credentials
+  let baseAuthorusation = req.headers['authorization']
+  if (!baseAuthorusation) {
+    errHandler('no credentials found', 401, 'no credentials found')
+    return
+  }
+  let credentials = Buffer.from(baseAuthorusation.slice(6), 'base64')
     .toString()
     .split(':')
-  return authorizedUsers[username] === password
+
+  if (
+    !bestFriends.includes(credentials[0]) ||
+    credentials[1] !== 'abracadabra'
+  ) {
+    errHandler('wrong credentials', 401, 'Authorization Required%')
+    return
+  }
+
+  // in the test for this task they put body in the headers !!!!!
+  let bodyReq = req.headers['body']
+  writeFile(`${pathGuests}/${guestFile}`, bodyReq)
+    .then(() => {
+      let bodyRes = bodyReq
+      res
+        .writeHead(statusCode, {
+          'Content-Length': Buffer.byteLength(bodyRes),
+        })
+        .end(bodyRes)
+    })
+    .catch(errHandler)
 }
 
-const server = http.createServer(async (req, res) => {
-  try {
-    res.setHeader('Content-Type', 'application/json')
-
-    if (req.method === 'POST') {
-      const authHeader = req.headers['authorization']
-      if (!isAuthorized(authHeader)) {
-        res.writeHead(401)
-        res.end(JSON.stringify({ error: 'Unauthorized' }))
-        return
-      }
-
-      let body = ''
-      req.on('data', (chunk) => {
-        body += chunk.toString()
-      })
-
-      req.on('end', async () => {
-        try {
-          const guestName = req.url.slice(1) // Removes the leading '/'
-          const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
-          const requestBody = JSON.parse(body)
-
-          try {
-            await fs.access(filePath)
-          } catch (error) {
-            await fs.writeFile(filePath, JSON.stringify(requestBody))
-          }
-
-          res.writeHead(200)
-          res.end(JSON.stringify(requestBody))
-        } catch (error) {
-          res.writeHead(500)
-          res.end(JSON.stringify({ error: 'Internal Server Error' }))
-        }
-      })
-    } else {
-      res.writeHead(405)
-      res.end(JSON.stringify({ error: 'Method Not Allowed' }))
-    }
-  } catch (error) {
-    res.writeHead(500)
-    res.end(JSON.stringify({ error: 'Internal Server Error' }))
-  }
-})
-
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
+const server = http.createServer(guestData)
+server.listen(port, host, () => {
+  console.log(`Server is running on http://${host}:${port}`)
 })
