@@ -45,7 +45,7 @@ const server = http.createServer(async (req, res) => {
           const requestBody = JSON.parse(body)
 
           await fs.writeFile(filePath, JSON.stringify(requestBody))
-          res.writeHead(200)
+          res.writeHead(200, { 'Content-Type': 'application/json' })
           res.end(JSON.stringify(requestBody))
         } catch (error) {
           res.writeHead(500)
