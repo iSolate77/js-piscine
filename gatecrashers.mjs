@@ -38,8 +38,11 @@ const server = http.createServer(async (req, res) => {
         try {
           const guestName = req.url.slice(1)
           const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
-          const requestBody = JSON.parse(body)
 
+          const guestsDir = path.join(__dirname, 'guests')
+          await fs.mkdir(guestsDir, { recursive: true })
+
+          const requestBody = JSON.parse(body)
           await fs.writeFile(filePath, JSON.stringify(requestBody))
           res.writeHead(200)
           res.end(JSON.stringify(requestBody))
