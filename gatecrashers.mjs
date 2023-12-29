@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 const port = 5000
+const newGuestNames = []
 const authorizedUsers = {
   Caleb_Squires: 'abracadabra',
   Tyrique_Dalton: 'abracadabra',
@@ -40,10 +41,14 @@ const server = http.createServer(async (req, res) => {
           const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
           for (const guestName of newGuestNames) {
             const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
-            const guest = await fs.readFile(filePath, 'utf-8')
-            const guestObj = JSON.parse(guest)
-            guestObj.attending = true
-            await fs.writeFile(filePath, JSON.stringify(guestObj))
+            await fs.writeFile(
+              filePath,
+              JSON.stringify({ answer: 'yes', drink: 'juice', food: 'pizza' }),
+            )
+            res.writeHead(200)
+            res.end(
+              JSON.stringify({ answer: 'yes', drink: 'juice', food: 'pizza' }),
+            )
           }
 
           const requestBody = JSON.parse(body)
