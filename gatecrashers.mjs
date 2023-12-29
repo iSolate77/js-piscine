@@ -3,7 +3,6 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 const port = 5000
-const newGuestNames = []
 const authorizedUsers = {
   Caleb_Squires: 'abracadabra',
   Tyrique_Dalton: 'abracadabra',
@@ -37,6 +36,7 @@ const server = http.createServer(async (req, res) => {
 
       req.on('end', async () => {
         try {
+          const newGuestNames = []
           const guestName = req.url.slice(1)
           const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
           for (const guestName of newGuestNames) {
