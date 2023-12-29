@@ -40,12 +40,17 @@ const server = http.createServer(async (req, res) => {
 
       req.on('end', async () => {
         try {
-          const guestName = req.url.slice(1)
+          const guestName = req.url.slice(1) // Removes the leading '/'
           const filePath = path.join(__dirname, 'guests', `${guestName}.json`)
           const requestBody = JSON.parse(body)
 
-          await fs.writeFile(filePath, JSON.stringify(requestBody))
-          res.writeHead(200, { 'Content-Type': 'application/json' })
+          try {
+            await fs.access(filePath)
+          } catch (error) {
+            await fs.writeFile(filePath, JSON.stringify(requestBody))
+          }
+
+          res.writeHead(200)
           res.end(JSON.stringify(requestBody))
         } catch (error) {
           res.writeHead(500)
